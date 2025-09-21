@@ -1,5 +1,6 @@
 package com.example.lab_week_04
 
+import android.content.res.Resources
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -11,7 +12,17 @@ val TABS_FIXED = listOf(
     R.string.kopikenangan_title,
 )
 
-class CafeAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+private val TAB_CONTENT = arrayOf(
+    R.string.starbucks_desc,
+    R.string.janjijiwa_desc,
+    R.string.kopikenangan_desc
+)
+
+class CafeAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    private val resources: Resources
+) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int {
@@ -19,6 +30,10 @@ class CafeAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     }
 
     override fun createFragment(position: Int): Fragment {
-        return CafeDetailFragment()
+        val contentResId = TAB_CONTENT[position]
+
+        val contentString = resources.getString(contentResId)
+
+        return CafeDetailFragment.newInstance(contentString)
     }
 }
